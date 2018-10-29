@@ -86,6 +86,7 @@ IMPROVEMENTS:
 - [consensus] [\#2683] validate all incoming messages
 - [evidence] [\#2683] validate all incoming messages
 - [blockchain] [\#2683] validate all incoming messages
+- [p2p/pex] [\#2683] validate pexAddrsMessage addresses
 
 BUG FIXES:
 - [autofile] [\#2428](https://github.com/tendermint/tendermint/issues/2428) Group.RotateFile need call Flush() before rename (@goolAdapter)
