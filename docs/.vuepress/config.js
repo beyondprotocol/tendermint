@@ -3,11 +3,16 @@ module.exports = {
   description: "Documentation for Tendermint Core.",
   ga: "UA-51029217-1",
   dest: "./dist/docs",
-  base: "/docs/",
+  base: "/",
   markdown: {
     lineNumbers: true
   },
   themeConfig: {
+    repo: "tendermint/tendermint",
+    editLinks: true,
+    docsDir: "docs",
+    docsBranch: "develop",
+    editLinkText: 'Edit this page on Github',
     lastUpdated: true,
     algolia: {
       apiKey: '59f0e2deb984aa9cdf2b3a5fd24ac501',
