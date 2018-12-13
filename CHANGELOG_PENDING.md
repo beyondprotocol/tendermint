@@ -10,6 +10,7 @@ Friendly reminder, we have a [bug bounty program](https://hackerone.com/tendermi
 
 ### BREAKING CHANGES:
 
+<<<<<<< HEAD
 * CLI/RPC/Config
 
 * Apps
@@ -20,11 +21,16 @@ Friendly reminder, we have a [bug bounty program](https://hackerone.com/tendermi
 
 * P2P Protocol
 
+=======
+>>>>>>> Deepcover
 ### FEATURES:
 
 ### IMPROVEMENTS:
 
 ### BUG FIXES:
+<<<<<<< HEAD
 
 - [crypto/merkle] [\#2756](https://github.com/tendermint/tendermint/issues/2756) Fix crypto/merkle ProofOperators.Verify to check bounds on keypath parts.
 - [mempool] fix a bug where we create a WAL despite `wal_dir` being empty
+=======
+>>>>>>> Deepcover

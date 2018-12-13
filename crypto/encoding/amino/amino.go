@@ -8,6 +8,7 @@ import (
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"github.com/tendermint/tendermint/crypto/multisig"
 	"github.com/tendermint/tendermint/crypto/secp256k1"
+	secp256r1 "github.com/tendermint/tendermint/crypto/secp256r1"
 )
 
 var cdc = amino.NewCodec()
@@ -50,6 +51,8 @@ func RegisterAmino(cdc *amino.Codec) {
 		ed25519.PubKeyAminoRoute, nil)
 	cdc.RegisterConcrete(secp256k1.PubKeySecp256k1{},
 		secp256k1.PubKeyAminoRoute, nil)
+	cdc.RegisterConcrete(secp256r1.PubKeySecp256r1{},
+		secp256r1.PubKeyAminoRoute, nil)
 	cdc.RegisterConcrete(multisig.PubKeyMultisigThreshold{},
 		multisig.PubKeyMultisigThresholdAminoRoute, nil)
 
