@@ -9,6 +9,7 @@ import (
 	"github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"github.com/tendermint/tendermint/crypto/secp256k1"
+	secp256r1 "github.com/tendermint/tendermint/crypto/secp256r1"
 )
 
 //-------------------------------------------------------
@@ -22,6 +23,7 @@ const (
 const (
 	ABCIPubKeyTypeEd25519   = "ed25519"
 	ABCIPubKeyTypeSecp256k1 = "secp256k1"
+	ABCIPubKeyTypeSecp256r1 = "secp256r1"
 )
 
 //-------------------------------------------------------
@@ -101,6 +103,11 @@ func (tm2pb) PubKey(pubKey crypto.PubKey) abci.PubKey {
 	case secp256k1.PubKeySecp256k1:
 		return abci.PubKey{
 			Type: ABCIPubKeyTypeSecp256k1,
+			Data: pk[:],
+		}
+	case secp256r1.PubKeySecp256r1:
+		return abci.PubKey{
+			Type: ABCIPubKeyTypeSecp256r1,
 			Data: pk[:],
 		}
 	default:
@@ -194,6 +201,13 @@ func (pb2tm) PubKey(pubKey abci.PubKey) (crypto.PubKey, error) {
 			return nil, fmt.Errorf("Invalid size for PubKeyEd25519. Got %d, expected %d", len(pubKey.Data), sizeSecp)
 		}
 		var pk secp256k1.PubKeySecp256k1
+		copy(pk[:], pubKey.Data)
+		return pk, nil
+	case ABCIPubKeyTypeSecp256r1:
+		if len(pubKey.Data) != sizeSecp {
+			return nil, fmt.Errorf("Invalid size for PubKeyEd25519. Got %d, expected %d", len(pubKey.Data), sizeSecp)
+		}
+		var pk secp256r1.PubKeySecp256r1
 		copy(pk[:], pubKey.Data)
 		return pk, nil
 	default:

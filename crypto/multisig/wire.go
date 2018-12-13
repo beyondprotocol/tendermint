@@ -5,6 +5,7 @@ import (
 	"github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"github.com/tendermint/tendermint/crypto/secp256k1"
+	secp256r1 "github.com/tendermint/tendermint/crypto/secp256r1"
 )
 
 // TODO: Figure out API for others to either add their own pubkey types, or
@@ -23,4 +24,6 @@ func init() {
 		ed25519.PubKeyAminoRoute, nil)
 	cdc.RegisterConcrete(secp256k1.PubKeySecp256k1{},
 		secp256k1.PubKeyAminoRoute, nil)
+	cdc.RegisterConcrete(secp256r1.PubKeySecp256r1{},
+		secp256r1.PubKeyAminoRoute, nil)
 }
