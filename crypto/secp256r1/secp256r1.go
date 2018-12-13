@@ -1,9 +1,13 @@
-package secp256k1
+package secp256r1
 
 import (
 	"bytes"
+	"crypto/ecdsa"
+	"crypto/elliptic"
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
+	"math/big"
 
 	amino "github.com/tendermint/go-amino"
 	"golang.org/x/crypto/ripemd160" // forked to github.com/tendermint/crypto
@@ -59,18 +63,15 @@ func (pubKey PubKeySecp256r1) Bytes() []byte {
 }
 
 func (pubKey PubKeySecp256r1) VerifyBytes(msg []byte, sig []byte) bool {
-	// pub, err := secp256k1.ParsePubKey(pubKey[:], secp256k1.S256())
-	// if err != nil {
-	// 	return false
-	// }
-	// parsedSig, err := secp256k1.ParseSignature(sig[:], secp256k1.S256())
-	// if err != nil {
-	// 	return false
-	// }
-	// Underlying library ensures that this signature is in canonical form, to
-	// prevent Secp256k1 malleability from altering the sign of the s term.
-	// return parsedSig.Verify(crypto.Sha256(msg), pub)
-	return true
+	pub := new(ecdsa.PublicKey)
+	x := new(big.Int)
+	x.SetBytes(pubKey[:32])
+	pub.X = x
+	y := new(big.Int)
+	y.SetBytes(pubKey[32:])
+	pub.Y = y
+	pub.Curve = elliptic.P256()
+	return VerifySignature(pub, msg, hex.EncodeToString(sig[:32]), hex.EncodeToString(sig[32:]))
 }
 
 func (pubKey PubKeySecp256r1) String() string {
@@ -82,4 +83,13 @@ func (pubKey PubKeySecp256r1) Equals(other crypto.PubKey) bool {
 		return bytes.Equal(pubKey[:], otherSecp[:])
 	}
 	return false
+}
+
+// VerifySignature verifies the signature using public keys and calculated digest
+func VerifySignature(pub *ecdsa.PublicKey, digest []byte, signatureR string, signatureS string) bool {
+	r := new(big.Int)
+	s := new(big.Int)
+	r.SetString(signatureR, 16)
+	s.SetString(signatureS, 16)
+	return ecdsa.Verify(pub, digest, r, s)
 }
